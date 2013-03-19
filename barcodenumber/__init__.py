@@ -5,7 +5,7 @@ Check the barcodes
 '''
 import math
 
-__version__ = '1.0'
+__version__ = '0.1'
 
 def barcodes():
     '''
@@ -18,6 +18,18 @@ def barcodes():
 
 def is_pair(x):
     return not x%2
+
+def check_code_code39(number):
+    '''
+    Check code39 code.
+    '''
+    return True
+
+def check_code_ean(number):
+    '''
+    Check ean code.
+    '''
+    return True
 
 def check_code_ean13(number):
     '''
@@ -49,6 +61,77 @@ def check_code_ean13(number):
 
     if check != int(number[-1]):
         return False
+    return True
+
+
+def check_code_ean8(number):
+    '''
+    Check ean8 code.
+    '''
+    return True
+
+def check_code_gs1(number):
+    '''
+    Check gs1 code.
+    '''
+    return True
+
+def check_code_gtin(number):
+    '''
+    Check gtin code.
+    '''
+    return True
+
+def check_code_isbn(number):
+    '''
+    Check isbn code.
+    '''
+    return True
+
+def check_code_isbn10(number):
+    '''
+    Check isbn10 code.
+    '''
+    if len(number) != 10:
+        return False
+    return True
+
+def check_code_isbn13(number):
+    '''
+    Check isbn13 code.
+    '''
+    if len(number) != 13:
+        return False
+    return True
+
+def check_code_issn(number):
+    '''
+    Check issn code.
+    '''
+    return True
+
+def check_code_jan(number):
+    '''
+    Check jan code.
+    '''
+    return True
+
+def check_code_pzn(number):
+    '''
+    Check pzn code.
+    '''
+    return True
+
+def check_code_upc(number):
+    '''
+    Check upc code.
+    '''
+    return True
+
+def check_code_upca(number):
+    '''
+    Check upca code.
+    '''
     return True
 
 def check_code(code, number):
