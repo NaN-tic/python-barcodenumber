@@ -37,7 +37,7 @@ def check_code_ean13(number):
     '''
     if not number:
         return True
-    if len(number) <> 13:
+    if len(number) != 13:
         return False
     try:
         int(number)
