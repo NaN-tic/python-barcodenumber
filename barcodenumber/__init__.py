@@ -5,11 +5,11 @@ Check the barcodes
 '''
 import math
 
-__version__ = '0.2'
+__version__ = '0.2.1'
 
 def barcodes():
     '''
-    Return the list of country's codes that have check function
+    Return the list of barcodes that have check function
     '''
     res = [x.replace('check_code_', '').upper() for x in globals()
             if x.startswith('check_code_')]
