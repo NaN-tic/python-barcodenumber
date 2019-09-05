@@ -17,6 +17,7 @@ setup(name='barcodenumber',
         description="Python module to validate Product codes (EAN, EAN13, ISBN,...)",
         long_description=read('README'),
         download_url="https://bitbucket.org/zikzakmedia/python-barcodenumber",
+        install_requires=['python-stdnum'],
         packages=find_packages(),
         classifiers=[
             'Development Status :: 5 - Production/Stable',
