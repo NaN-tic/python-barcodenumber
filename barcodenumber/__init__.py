@@ -7,7 +7,7 @@ import math
 from stdnum import ean, isbn
 import re
 
-__version__ = '0.3'
+__version__ = '0.3.0'
 
 
 def barcodes():
