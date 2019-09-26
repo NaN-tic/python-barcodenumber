@@ -6,8 +6,9 @@ Check and decode the barcodes
 import math
 from stdnum import ean, isbn
 import re
+import gs1datamatrix
 
-__version__ = '0.3.0'
+__version__ = '0.4.0'
 
 
 def barcodes():
@@ -128,6 +129,17 @@ def check_code_upca(number):
     return True
 
 
+def check_code_gs1_datamatrix(number):
+    '''
+    Check GS1 datamatrix
+    '''
+    gtin = gs1datamatrix.ProductCode.extract(number)
+    # GTIN14 will never start with a zero.
+    gtin_is_valid = ((check_code_gtin14(gtin)
+            or check_code_gtin(gtin.lstrip('0'))) if gtin else False)
+    return True if gtin_is_valid else False
+
+
 def check_code(code, number):
     '''
     Check barcode
@@ -137,3 +149,38 @@ def check_code(code, number):
     except KeyError:
         return False
     return checker(number)
+
+
+def decode_code_gs1_datamatrix(number):
+        result = {}
+        gtin = gs1datamatrix.ProductCode.extract(number)
+        if gtin:
+            result['product_code'] = gtin
+            _, unparsed_code = number.split(gtin, 1)
+            expiration_date = gs1datamatrix.ExpirationDate.extract(
+                unparsed_code)
+            result['expiration_date'] = expiration_date
+            _, unparsed_code = unparsed_code.split(expiration_date, 1)
+            lot = gs1datamatrix.Lot.extract(unparsed_code)
+            result['lot'] = lot
+            _, unparsed_code = unparsed_code.split(lot, 1)
+            # remove separator from variable elements
+            unparsed_code = unparsed_code.replace(
+                gs1datamatrix.SEPARATOR, '', 1)
+            serial_number = gs1datamatrix.SerialNumber.extract(unparsed_code)
+            result['serial_number'] = serial_number
+
+        return result
+
+
+def decode_code(code, number):
+    '''
+    Decode Barcode
+    '''
+    if not check_code(code, number):
+        return {}
+    try:
+        decoder = globals()['decode_code_%s' % code.lower()]
+    except KeyError:
+        return False
+    return decoder(number)

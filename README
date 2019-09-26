@@ -6,7 +6,19 @@ Python module to validate product codes.
 Codes
 -----
 
+* code39
+* ean (ean12)
+* ean8
 * ean13
+* gtin (ean13)
+* gtin14
+* gs1_datamatrix
+* isbn
+* isbn10
+* isbn13
+* upc (ean12)
+
+
 
 Nutshell
 --------
