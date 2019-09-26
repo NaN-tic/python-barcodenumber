@@ -6,7 +6,7 @@ Check and decode the barcodes
 import math
 from stdnum import ean, isbn
 import re
-import gs1datamatrix
+from . import gs1datamatrix
 
 __version__ = '0.4.0'
 

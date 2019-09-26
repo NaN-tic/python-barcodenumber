@@ -10,6 +10,8 @@ import barcodenumber
 CODES = [
     ('ean13', '9788478290222', True),
     ('ean13', '9788478290221', False),
+    ('gs1_datamatrix', '010123456789012815051231', True),
+    ('gs1_datamatrix', '01012345678901', False),
     ]
 
 class BarcodeNumberTest(unittest.TestCase):
@@ -27,12 +29,6 @@ class BarcodeNumberTest(unittest.TestCase):
             else:
                 test = self.assertFalse
             test(barcodenumber.check_code(code, number))
-
-    def test_codes(self):
-        '''
-        Test codes
-        '''
-        self.assertEqual(barcodenumber.barcodes(), ['ean13'])
 
 if __name__ == '__main__':
     unittest.main()
