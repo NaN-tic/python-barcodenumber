@@ -1,14 +1,13 @@
-#This file is part of barcodenumber. The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
+# This file is part of barcodenumber. The COPYRIGHT file at the top level of
+# this repository contains the full copyright notices and license terms.
 '''
 Check and decode the barcodes
 '''
-import math
 from stdnum import ean, isbn
 import re
 from . import gs1datamatrix
 
-__version__ = '0.4.0'
+__version__ = '0.5.0'
 
 
 def barcodes():
@@ -67,11 +66,13 @@ def check_code_gtin(number):
     '''
     return ean.is_valid(number) and len(number) == 13
 
+
 def check_code_gtin14(number):
     '''
     Check gtin14 code.
     '''
     return ean.is_valid(number) and len(number) == 14
+
 
 def check_code_isbn(number):
     '''
@@ -152,25 +153,26 @@ def check_code(code, number):
 
 
 def decode_code_gs1_datamatrix(number):
-        result = {}
-        gtin = gs1datamatrix.ProductCode.extract(number)
-        if gtin:
-            result['product_code'] = gtin
-            _, unparsed_code = number.split(gtin, 1)
-            expiration_date = gs1datamatrix.ExpirationDate.extract(
-                unparsed_code)
-            result['expiration_date'] = expiration_date
-            _, unparsed_code = unparsed_code.split(expiration_date, 1)
-            lot = gs1datamatrix.Lot.extract(unparsed_code)
-            result['lot'] = lot
-            _, unparsed_code = unparsed_code.split(lot, 1)
-            # remove separator from variable elements
-            unparsed_code = unparsed_code.replace(
-                gs1datamatrix.SEPARATOR, '', 1)
-            serial_number = gs1datamatrix.SerialNumber.extract(unparsed_code)
-            result['serial_number'] = serial_number
+    result = {}
+    gtin = gs1datamatrix.ProductCode.extract(number)
+    if gtin:
+        result['product_code'] = gtin
+        _, unparsed_code = number.split(gtin, 1)
+        expiration_date = gs1datamatrix.ExpirationDate.extract(
+            unparsed_code)
+        result['expiration_date'] = expiration_date
+        _, unparsed_code = unparsed_code.split(expiration_date, 1)
+        lot = gs1datamatrix.Lot.extract(unparsed_code)
+        result['lot'] = lot
+        _, unparsed_code = unparsed_code.split(lot, 1)
+        # remove separators from variable elements
+        unparsed_code = unparsed_code.replace(
+            gs1datamatrix.SEPARATOR, '', 1).replace(
+            gs1datamatrix.HUMAN_SEPARATOR, '', 1)
+        serial_number = gs1datamatrix.SerialNumber.extract(unparsed_code)
+        result['serial_number'] = serial_number
 
-        return result
+    return result
 
 
 def decode_code(code, number):
